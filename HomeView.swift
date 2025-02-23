@@ -1,7 +1,7 @@
 import SwiftUI
 
 class GlucoseData: ObservableObject {
-    @Published var records: [BloodGlucoseRecord] = []
+  @Published var records: [BloodGlucoseRecord] = []
 }
 
 struct HomeView: View {
@@ -15,9 +15,9 @@ struct HomeView: View {
   let mealTimes = ["Fasting", "After Meal", "Other"]
   
   init(glucoseData: GlucoseData) {
-      self.glucoseData = glucoseData
-      let hour = Calendar.current.component(.hour, from: Date())
-      _selectedMealTime = State(initialValue: hour < 12 ? "Fasting" : "After Meal")
+    self.glucoseData = glucoseData
+    let hour = Calendar.current.component(.hour, from: Date())
+    _selectedMealTime = State(initialValue: hour < 12 ? "Fasting" : "After Meal")
   }
   
   var body: some View {
@@ -80,20 +80,21 @@ struct HomeView: View {
             }
           }
         }
-        
-        // ✅ Save 버튼 비활성화 로직 복구
         Button(action: saveRecord) {
-          Text("Record")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(bloodGlucose.isEmpty ? Color.gray : Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
+          HStack {
+            Image(systemName: "plus.circle.fill")
+              .foregroundColor(.white)
+            Text("Record")
+          }
+          .frame(maxWidth: .infinity)
+          .padding()
+          .background(bloodGlucose.isEmpty ? Color.gray : Color.blue)
+          .foregroundColor(.white)
+          .cornerRadius(10)
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
-        .disabled(bloodGlucose.isEmpty)
-      }
+        .disabled(bloodGlucose.isEmpty)      }
       .navigationTitle("Home")
     }
   }
@@ -112,7 +113,6 @@ struct HomeView: View {
     }
   }
   
-  // ✅ 혈당값 범위 검사 및 자동 수정 로직 복구
   func validateBloodGlucoseInput(_ newValue: String) {
     let filteredValue = newValue.filter { "0123456789".contains($0) }
     
