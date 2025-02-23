@@ -14,18 +14,18 @@ struct ContentView: View {
         Form {
           Section {
             VStack {
-              Image("glucose_meter")
+              Image("glucose_meter") // Make sure to add this image in Assets.xcassets
                 .resizable()
                 .scaledToFit()
-                .frame(width: 128, height: 128)
-                .padding(.top, 10)
+                .frame(width: 150, height: 150)
+                .padding(.top, 20)
               
-              Text("Good Morning,\nLet's check fasting glucose level")
+              Text(getGreetingMessage())
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 10)
               
-              Text("Please remember to check your fasting blood sugar in the morning before eating or drinking anything. It’s important for monitoring your health effectively")
+              Text(getReminderMessage())
                 .font(.caption)
                 .multilineTextAlignment(.center)
             }
@@ -67,6 +67,19 @@ struct ContentView: View {
       }
       .navigationTitle("Home")
     }
+  }
+  
+  func getGreetingMessage() -> String {
+    let hour = Calendar.current.component(.hour, from: Date())
+    return hour < 12 ? "Good Morning,\nLet's check fasting glucose level"
+    : "Good Afternoon,\nHave you checked your glucose today?"
+  }
+  
+  func getReminderMessage() -> String {
+    let hour = Calendar.current.component(.hour, from: Date())
+    return hour < 12
+    ? "Please remember to check your fasting blood sugar in the morning before eating or drinking anything. It’s important for monitoring your health effectively."
+    : "Please remember to check your blood sugar two hours after your meal this afternoon. It helps us better understand how your body is responding to food."
   }
   
   func saveRecord() {
