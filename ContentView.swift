@@ -12,6 +12,26 @@ struct ContentView: View {
     NavigationView {
       VStack {
         Form {
+          Section {
+            VStack {
+              Image("glucose_meter")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 128, height: 128)
+                .padding(.top, 10)
+              
+              Text("Good Morning,\nLet's check fasting glucose level")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 10)
+              
+              Text("Please remember to check your fasting blood sugar in the morning before eating or drinking anything. It’s important for monitoring your health effectively")
+                .font(.caption)
+                .multilineTextAlignment(.center)
+            }
+          }
+          
+          // ✅ 기존의 혈당 기록 입력 필드 유지
           Section(header: Text("Record Blood Glucose")) {
             DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
             DatePicker("Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
