@@ -8,13 +8,19 @@ struct ContentView: View {
   
   
   let mealTimes = ["Fasting", "After Meal", "Other"]
+  
+  init() {
+    let hour = Calendar.current.component(.hour, from: Date())
+           _selectedMealTime = State(initialValue: hour < 12 ? "Fasting" : "After Meal")
+  }
+  
   var body: some View {
     NavigationView {
       VStack {
         Form {
           Section {
             VStack {
-              Image("glucose_meter") // Make sure to add this image in Assets.xcassets
+              Image("glucose_meter")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 150, height: 150)
@@ -31,8 +37,7 @@ struct ContentView: View {
             }
           }
           
-          // ✅ 기존의 혈당 기록 입력 필드 유지
-          Section(header: Text("Record Blood Glucose")) {
+          Section(header: Text("Record Blood Glucose"), footer: Text(getFooterText())) {
             DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
             DatePicker("Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
             
@@ -52,6 +57,7 @@ struct ContentView: View {
               }
             }
           }
+          
         }
         
         Button(action: saveRecord) {
@@ -62,12 +68,23 @@ struct ContentView: View {
             .foregroundColor(.white)
             .cornerRadius(10)
         }
-        .padding(.horizontal) // 좌우 패딩 유지
-        .padding(.vertical, 10) // 버튼과 Form 간격 조정
+        .padding(.horizontal)
+        .padding(.vertical, 10)
       }
       .navigationTitle("Home")
     }
   }
+  
+  func getFooterText() -> String {
+         switch selectedMealTime {
+         case "Fasting":
+             return "Target fasting blood glucose: 80-130mg/dL"
+         case "After Meal":
+             return "Target post-meal blood glucose: <180mg/dL"
+         default:
+             return "Maintain a healthy blood glucose level for overall well-being."
+         }
+     }
   
   func getGreetingMessage() -> String {
     let hour = Calendar.current.component(.hour, from: Date())
@@ -83,7 +100,6 @@ struct ContentView: View {
   }
   
   func saveRecord() {
-    // 저장 로직 추가 가능 (예: UserDefaults, CoreData, Firebase 등)
     print("Blood Glucose Record Saved:")
     print("Date: \(selectedDate)")
     print("Time: \(selectedTime)")
