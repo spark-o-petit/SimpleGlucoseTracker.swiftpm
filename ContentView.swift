@@ -1,15 +1,17 @@
 import SwiftUI
 
 struct ContentView: View {
+  @StateObject private var glucoseData = GlucoseData()
+
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(glucoseData: glucoseData)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
             
-            HistoryView()
+            HistoryView(glucoseData: glucoseData)
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("History")

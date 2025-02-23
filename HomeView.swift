@@ -1,16 +1,23 @@
 import SwiftUI
 
+class GlucoseData: ObservableObject {
+    @Published var records: [BloodGlucoseRecord] = []
+}
+
 struct HomeView: View {
   @State private var selectedDate = Date()
   @State private var selectedTime = Date()
   @State private var bloodGlucose = ""
   @State private var selectedMealTime = "Fasting"
   
+  @ObservedObject var glucoseData: GlucoseData
+  
   let mealTimes = ["Fasting", "After Meal", "Other"]
   
-  init() {
-    let hour = Calendar.current.component(.hour, from: Date())
-    _selectedMealTime = State(initialValue: hour < 12 ? "Fasting" : "After Meal")
+  init(glucoseData: GlucoseData) {
+      self.glucoseData = glucoseData
+      let hour = Calendar.current.component(.hour, from: Date())
+      _selectedMealTime = State(initialValue: hour < 12 ? "Fasting" : "After Meal")
   }
   
   var body: some View {
@@ -146,10 +153,17 @@ struct HomeView: View {
   }
   
   func saveRecord() {
-    print("Blood Glucose Record Saved:")
-    print("Date: \(selectedDate)")
-    print("Time: \(selectedTime)")
-    print("Blood Glucose: \(bloodGlucose) mg/dL")
-    print("Meal Time: \(selectedMealTime)")
+    guard let glucoseValue = Int(bloodGlucose) else { return }
+    
+    let newRecord = BloodGlucoseRecord(
+      id: UUID(),
+      date: selectedDate,
+      time: selectedTime,
+      glucoseLevel: glucoseValue,
+      mealTime: selectedMealTime
+    )
+    
+    glucoseData.records.append(newRecord)
+    bloodGlucose = ""
   }
 }
