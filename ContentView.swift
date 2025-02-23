@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-  @StateObject private var glucoseData = GlucoseData()
+  //  @StateObject private var glucoseData = GlucoseData()
+  @StateObject private var glucoseData = GlucoseDataDummy()
+  
   
   var body: some View {
     TabView {
