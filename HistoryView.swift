@@ -2,22 +2,31 @@ import SwiftUI
 
 struct HistoryView: View {
   @ObservedObject var glucoseData: GlucoseData
+  @State private var selectedDate = Date()
   
   var body: some View {
     NavigationView {
-      List {
-        if glucoseData.records.isEmpty {
-          Text("No records available")
-            .foregroundColor(.gray)
-        } else {
-          ForEach(glucoseData.records) { record in
-            VStack(alignment: .leading) {
-              Text("Date: \(formatDate(record.date))")
-              Text("Time: \(formatTime(record.time))")
-              Text("Glucose Level: \(record.glucoseLevel) mg/dL")
-              Text("Meal Time: \(record.mealTime)")
+      VStack {
+        // ✅ 캘린더(DatePicker) 추가
+        DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
+          .datePickerStyle(GraphicalDatePickerStyle())
+          .padding()
+        
+        List {
+          let filteredRecords = glucoseData.records.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
+          
+          if filteredRecords.isEmpty {
+            Text("No records for this date")
+              .foregroundColor(.gray)
+          } else {
+            ForEach(filteredRecords) { record in
+              VStack(alignment: .leading) {
+                Text("Time: \(formatTime(record.time))")
+                Text("Glucose Level: \(record.glucoseLevel) mg/dL")
+                Text("Meal Time: \(record.mealTime)")
+              }
+              .padding()
             }
-            .padding()
           }
         }
       }
