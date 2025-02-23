@@ -9,6 +9,7 @@ struct HomeView: View {
   @State private var selectedTime = Date()
   @State private var bloodGlucose = ""
   @State private var selectedMealTime = "Fasting"
+  @State private var showConfirmation = false // ✅ Alert 상태 변수 추가
   
   @ObservedObject var glucoseData: GlucoseData
   
@@ -94,7 +95,15 @@ struct HomeView: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
-        .disabled(bloodGlucose.isEmpty)      }
+        .disabled(bloodGlucose.isEmpty)
+        .alert(isPresented: $showConfirmation) {
+          Alert(
+            title: Text("Success"),
+            message: Text("Blood glucose record added successfully!"),
+            dismissButton: .default(Text("OK"))
+          )
+        }
+      }
       .navigationTitle("Home")
     }
   }
@@ -165,5 +174,7 @@ struct HomeView: View {
     
     glucoseData.records.append(newRecord)
     bloodGlucose = ""
+    showConfirmation = true
+
   }
 }
