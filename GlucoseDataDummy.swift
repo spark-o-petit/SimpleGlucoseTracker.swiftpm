@@ -1,9 +1,9 @@
 import Foundation
 import Combine
 
-class GlucoseDataDummy: GlucoseData { // ✅ GlucoseData 상속 추가
+class GlucoseDataDummy: GlucoseData {
     override init() {
-        super.init() // ✅ 기존 GlucoseData의 초기화 실행
+        super.init()
         generateDummyData()
     }
 

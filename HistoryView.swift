@@ -24,7 +24,7 @@ struct HistoryView: View {
             Text("No records for this date")
               .foregroundColor(.gray)
           } else {
-            Section(header: Text("Detailed Info").font(.headline)) { // ✅ 헤더 추가
+            Section(header: Text("Detailed Info").font(.headline)) {
               ForEach(filteredRecords) { record in
                 VStack(alignment: .leading) {
                   HStack {
@@ -104,7 +104,7 @@ struct HistoryView: View {
     guard yesterday > 0 else { return ("No comparison", .gray) }
 
     let change = ((today - yesterday) / yesterday) * 100
-    let roundedChange = round(change * 10) / 10 // 소수점 1자리 반올림
+    let roundedChange = round(change * 10) / 10 
 
     if change > 0 {
       return ("↑ \(roundedChange)%", .orange)
