@@ -22,7 +22,7 @@ This app was developed as part of the Swift Student Challenge 2025. It represent
 - Prototyped the app based on foundational skills acquired from Apple Developer Academy.
 
 ## Why Get Your Glucose Tracked?
-Managing diabetes effectively requires consistent monitoring of blood glucose levels, but manual tracking can be time-consuming and prone to errors. GlucoTrack addresses this pain point by offering a streamlined solution that saves time and effort while maintaining accuracy.
+Managing diabetes effectively requires consistent monitoring of blood glucose levels, but manual tracking can be time-consuming and prone to errors. Get Your Glucose Tracked addresses this pain point by offering a streamlined solution that saves time and effort while maintaining accuracy.
 
 ## How to Use
 1. Open the app and input your fasting or postprandial blood glucose levels.
